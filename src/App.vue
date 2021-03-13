@@ -2,7 +2,7 @@
       <div id="app">
           <Folder @change-page="changePage" @new-page="newPage" :pages="pages" :activePage="index" />
           <Page @save-page="savePage" @delete-page="deletePage" :page="pages[index]" />
-          <Search @emit-to-parent="search" :childMessage="query"/>
+          <Search @emit-to-parent="search" :childMessage="query" :results = "results"/>
       </div>
     </template>
 
@@ -33,7 +33,7 @@
       },
       data: () => ({
         pages: [],
-        results: "",
+        results: "horrible",
         index: 0,
         query:""
       }),
@@ -51,25 +51,17 @@
       },
       methods: {
         search (query, results) {
-          console.log("This function does something")
           console.log("query" + query)
           var ref = database;
-          var test;
+          var test = [];
           
           ref.orderByChild("title").on("child_added", function(snapshot) {
             console.log(snapshot.val().title + " was the title and " + snapshot.val().tags + " is the tags");
           });
-          ref.orderByChild('title').once('child_added', function(snapshot) {
-            test = (snapshot.val().tags);
-            
-            // do something with documents
-          }).then(function() {
-            console.log("test" + test);
-            results = test;
-            console.log("results" + results);
+          ref.orderByChild('title').on('child_added', function(snapshot) {
+            test.push(snapshot.val().tags);
           })
-         
-          
+          this.results = test
         },
         newPage () {
           this.pages.push({

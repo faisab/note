@@ -2,11 +2,11 @@
         <div class="search">
             <input type="text" v-model="childMessage" placeholder="Search">
             <button @click="emitToParent()">Search</button>
-            <ul>           
-                <div v-if="results">
-                    <li class="folder" >
-                      <div>'Placeholder'</div>
-                    </li>
+            <ul>      
+                <div v-if="results" class="page">
+                    <li v-for="result of results" class="page">
+                        <div> {{ result }}</div>
+                    </li> 
                 </div>
             </ul>
         </div>
@@ -30,6 +30,7 @@
     </script>
 
     <style scoped>
+
         .search {
             max-width: 20rem;
             width: 30rem;
@@ -41,6 +42,13 @@
             font-size: 6rem;
             font-family: 'Avenir', Helvetica, Arial, sans-serif;
             padding: 0.5rem 1rem;
+        }
+
+        .results {
+            padding: 2rem;
+            box-shadow: 0rem 0 0rem 0rem #c1f5ff;
+            background-color: #f4f9f4
+            
         }
 
         ul {
