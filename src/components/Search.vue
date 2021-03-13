@@ -1,11 +1,13 @@
     <template>
         <div class="search">
-            <ul>
-                <input v-model="query.q" placeholder="Search" >
-                <li class="folder">
-                    <div>{{query}}</div>
-                </li>
-                
+            <input type="text" v-model="childMessage" placeholder="Search">
+            <button @click="emitToParent()">Search</button>
+            <ul>           
+                <div v-if="results">
+                    <li class="folder" >
+                      <div>'Placeholder'</div>
+                    </li>
+                </div>
             </ul>
         </div>
     </template>
@@ -13,10 +15,15 @@
     <script>
       export default {
         name: 'Search',
-        props: ['query'],
+        data() {
+            return {
+                childMessage: ''
+            }
+        },
+        props: ['results'],
         methods: {
-          search (query) {
-              this.$emit('search', query)
+          emitToParent () {
+              this.$emit('emit-to-parent', this.childMessage)
           }
         }
       }
@@ -26,7 +33,7 @@
         .search {
             max-width: 20rem;
             width: 30rem;
-            background: #edfff0;
+            background: #a7d7c5;
         }
         
 

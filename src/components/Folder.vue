@@ -29,7 +29,7 @@
         .folder {
             max-width: 20rem;
             width: 30rem;
-            background: #edfff0;
+            background: #a7d7c5;
         }
 
         ul {
@@ -55,7 +55,7 @@
         }
 
         .active {
-            background-color: #3a6e45;
+            background-color: #488b8f;
             color: white;
         }
 
@@ -65,7 +65,7 @@
         }
 
         .new-page {
-            background-color: #065c11;
+            background-color: #488b8f;
             color: white;
             position: absolute;
             bottom: 1%;
@@ -78,7 +78,7 @@
         }
 
         .new-folder {
-            background-color: #065c11;
+            background-color: #74b49b;
             color: white;
             position: absolute;
             bottom: 0;

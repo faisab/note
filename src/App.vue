@@ -2,7 +2,7 @@
       <div id="app">
           <Folder @change-page="changePage" @new-page="newPage" :pages="pages" :activePage="index" />
           <Page @save-page="savePage" @delete-page="deletePage" :page="pages[index]" />
-          <Search @search="search" :query="query" />
+          <Search @emit-to-parent="search" :childMessage="query"/>
       </div>
     </template>
 
@@ -33,12 +33,12 @@
       },
       data: () => ({
         pages: [],
-        result: [],
+        results: "",
         index: 0,
         query:""
       }),
       mounted() {
-        database.once('value', (folders) => { folders.forEach((pages) => {
+        database.once('value', (pages) => {
           pages.forEach((page) => {
             this.pages.push({
               ref: page.ref,
@@ -47,37 +47,39 @@
               content: page.child('content').val()
             })
           })
-          })
         })
       },
       methods: {
-        search (query) {
+        search (query, results) {
           console.log("This function does something")
-          this.query = query
-          results = database.search(query)
-          console.log(results)
-          console.log("This function does something")
+          console.log("query" + query)
+          var ref = database;
+          var test;
+          
+          ref.orderByChild("title").on("child_added", function(snapshot) {
+            console.log(snapshot.val().title + " was the title and " + snapshot.val().tags + " is the tags");
+          });
+          ref.orderByChild('title').once('child_added', function(snapshot) {
+            test = (snapshot.val().tags);
+            
+            // do something with documents
+          }).then(function() {
+            console.log("test" + test);
+            results = test;
+            console.log("results" + results);
+          })
+         
+          
         },
         newPage () {
           this.pages.push({
             title: '',
-            tags: '',
             content: ''
           })
           this.index = this.pages.length - 1
         },
         changePage (index) {
           this.index = index
-        },
-        newFolder () {
-          this.folders.push({
-            title: '',
-            pages: ''
-          })
-          this.indexF = this.folders.length - 1
-        },
-        changeFolder (index) {
-          this.indexF = indexF
         },
         savePage () {
           var page = this.pages[this.index]

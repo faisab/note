@@ -1,6 +1,7 @@
     <template>
         <div class="page">
             <div v-if="page">
+                <h1 class="header">Notebook</h1>
                 <label for="title">Title</label>
                 <input type="text" v-model="page.title" class="title" name="title" placeholder="Enter a title" />
                 <label for="tags">Tags:</label>
@@ -36,6 +37,7 @@
             width: 100%;
             padding: 2rem;
             box-shadow: 3rem 0 5rem 3rem #c1f5ff;
+            background-color: #f4f9f4
         }
 
         .content, .title, .tags {
@@ -45,6 +47,7 @@
             width: 100%;
             box-sizing: border-box;
             margin-bottom: 1.25rem;
+
         }
 
         .content:focus, .title:focus {
@@ -57,6 +60,14 @@
             font-size: 1.5rem;
             padding: 0.5rem;
             height: 20rem;
+        }
+
+        .header {
+            font-size: 4rem;
+            text-align: center;
+            padding: 2rem 2rem;
+            color: #f4f9f4;
+            background: #5c8d89;
         }
 
         .title {
@@ -77,12 +88,14 @@
         label {
             margin-bottom: 0.5rem;
             display: inline-block;
+            color: #5c8d89;
+            font-family: "Spectral", Times, serif;
         }
 
         button {
             border-style: none;
             padding: 0.5rem 0.75rem;
-            background-color: #34995b;
+            background-color: #488b8f;
             margin-right: 1rem;
             border-radius: 0.25rem;
             color: white;
