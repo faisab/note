@@ -1,10 +1,10 @@
 <template>
-  <script type="text/x-template" id="autocomplete-tpl">
+  
     <div class="autocomplete">
       <label :for="id">{{label}}</label>
       <textarea v-if="textarea" :id="id" :rows="rows" :cols="cols" class="autocomplete-input" :placeholder="placeholder" @focusout="focusout" @focus="focus" @keydown.13="chooseItem" @keydown.tab="chooseItem" @keydown.40="moveDown" @keydown.38="moveUp" v-model="inputValue"
         type="text"></textarea>
-      <input v-else :id="id" class="autocomplete-input" :placeholder="placeholder" @focusout="focusout" @focus="focus" @keydown.13="chooseItem" @keydown.tab="chooseItem" @keydown.40="moveDown" @keydown.38="moveUp" v-model="inputValue" type="text">
+      <input v-else :id="id" class="autocomplete-input" :placeholder="placeholder" @focusout="focusout" @focus="focus" @keydown.13="chooseItem" @keydown.tab="chooseItem" @keydown.40="moveDown" @keydown.38="moveUp" v-model="inputValue" @update = emitToParent() type="text">
 
 
       <ul :class="{
@@ -15,37 +15,13 @@
 
         </li>
       </ul>
+      
     </div>
-</script>
+    
 
 
-<div id="app">
-
- <div class="container">
-  <div class="container-row">
-   <div class="container-item">
-    <h2>VueJs - Autocomplete</h2>
-    <p>A small proof of concept of an autocomplete<br />component in VueJS. Use your arrow keys to navigate,<br /> tab to choose first result, <br />enter or mouse to choose selected item.</p>
-   </div>
 
 
-   <div class="container-item">
-    <autocomplete label="Standard items:" placeholder="span, div, h1..." />
-   </div>
-
-   <div class="container-item">
-    <br />
-    <br />
-    <autocomplete label="Custom items:" :items="['all', 'auto', 'complete', 'items']" placeholder="all, auto..." />
-   </div>
-		<div class="container-item">
-    <br />
-    <br />
-    <autocomplete label="Textarea" rows="5" placeholder="Your text..." textarea="true" />
-   </div>
-  </div>
- </div>
-</div>
 
 </template>
 
@@ -76,8 +52,8 @@ const standardItems = [
 	"right",
 	"bottom"
 ];
-const Autocomplete = Vue.component("autocomplete", {
-	template: "#autocomplete-tpl",
+export default {
+    name: "autocomplete",
 	props: ["items", "placeholder", "label", "textarea", "rows", "cols"],
 	data() {
 		return {
@@ -93,15 +69,12 @@ const Autocomplete = Vue.component("autocomplete", {
     const _self = this;
     document.querySelector('#' + this.id)
       .addEventListener('input', function() {
-        const caret = getCaretCoordinates(this, this.selectionEnd);
+        
 
         if (_self.searchMatch.length > 0) {
           const element = document.querySelectorAll('.' + _self.id + '-list');
 
-          if (element[0]) {
-            element[0].style.top = caret.top + 40 + 'px';
-            element[0].style.left = caret.left + 'px';
-          }
+          
         }
       });
   },
@@ -124,11 +97,17 @@ const Autocomplete = Vue.component("autocomplete", {
 		inputValue() {
 			this.focus();
 			console.log(this.inputSplitted)
+            this.emitToParent()
 			this.selectedIndex = 0;
 			this.wordIndex = this.inputSplitted.length - 1;
+            
 		}
 	},
 	methods: {
+        emitToParent () {
+              this.$emit('emit-to-parent', this.inputValue)
+              console.log("autocomplete emit to parent:" + this.inputValue)
+          },
 		highlightWord(word) {
 			const regex = new RegExp("(" + this.currentWord + ")", "g");
 			return word.replace(regex, '<mark>$1</mark>');
@@ -188,68 +167,33 @@ const Autocomplete = Vue.component("autocomplete", {
 			}
 		}
 	}
-});
+    
+}
 
-new Vue({
-	el: "#app"
-});
-
-
-// Thanks: https://github.com/component/textarea-caret-position
-(function(){function e(b,e,f){if(!h)throw Error("textarea-caret-position#getCaretCoordinates should only be called in a browser");if(f=f&&f.debug||!1){var a=document.querySelector("#input-textarea-caret-position-mirror-div");a&&a.parentNode.removeChild(a)}a=document.createElement("div");a.id="input-textarea-caret-position-mirror-div";document.body.appendChild(a);var c=a.style,d=window.getComputedStyle?window.getComputedStyle(b):b.currentStyle,k="INPUT"===b.nodeName;c.whiteSpace="pre-wrap";k||(c.wordWrap=
-"break-word");c.position="absolute";f||(c.visibility="hidden");l.forEach(function(a){k&&"lineHeight"===a?c.lineHeight=d.height:c[a]=d[a]});m?b.scrollHeight>parseInt(d.height)&&(c.overflowY="scroll"):c.overflow="hidden";a.textContent=b.value.substring(0,e);k&&(a.textContent=a.textContent.replace(/\s/g,"\u00a0"));var g=document.createElement("span");g.textContent=b.value.substring(e)||".";a.appendChild(g);b={top:g.offsetTop+parseInt(d.borderTopWidth),left:g.offsetLeft+parseInt(d.borderLeftWidth),height:parseInt(d.lineHeight)};
-f?g.style.backgroundColor="#aaa":document.body.removeChild(a);return b}var l="direction boxSizing width height overflowX overflowY borderTopWidth borderRightWidth borderBottomWidth borderLeftWidth borderStyle paddingTop paddingRight paddingBottom paddingLeft fontStyle fontVariant fontWeight fontStretch fontSize fontSizeAdjust lineHeight fontFamily textAlign textTransform textIndent textDecoration letterSpacing wordSpacing tabSize MozTabSize".split(" "),h="undefined"!==typeof window,m=h&&null!=window.mozInnerScreenX;
-"undefined"!=typeof module&&"undefined"!=typeof module.exports?module.exports=e:h&&(window.getCaretCoordinates=e)})();
 </script>
 
 <style scoped> 
-body {
-	height: 100%;
-	min-height: 800px;
+.autocomplete {
+	border-style: none;
+    border-radius: 0.25rem;
+    border: solid 1px rgb(220, 224, 219);
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1.25rem;
 }
-html {
-	position: relative;
 
-	width: 100%;
-	min-height: 800px;
-	height: 100%;
-	&:after, &:before {
-		position: absolute;
-
-		width: 100%;
-		height: 10px;
-
-		content: '';
-		z-index: 5;
-	}
-	&:after {
-		top: 0;
-
-		background-color: #4fc08d;
-	}
-	&:before {
-		bottom: 0;
-
-		background-color: #35495e;
-	}
-}
-#app {
-	height: 100%;
-	margin: 0;
-	h2 {
-		margin: 0;
-
-		font-weight: 100;
-	}
-	p {
-		margin: 5px 0 30px;
-
-		color: #999;
-
-		font-weight: 100;
-		line-height:24px;
-		font-size: 15px;
-	}
+.content {
+    border-style: none;
+    border-radius: 0.25rem;
+    border: solid 1px rgb(220, 224, 219);
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1.25rem;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    resize: vertical;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    height: 20rem;
 }
 
 .container {
@@ -270,6 +214,12 @@ html {
 	&-item {
 		width: 100%;
 	}
+    border-style: none;
+            border-radius: 0.25rem;
+            border: solid 1px rgb(220, 224, 219);
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 1.25rem;
 }
 
 
@@ -285,14 +235,18 @@ html {
 		font-weight: 100;
 	}
 	&-input {
-		padding: 7px 10px;
-		width: 93%;
-		border: 1px solid #ddd;
-		border-radius: 4px;
-		outline: none;
-		&:focus {
-			border-color: #000;
-		}
+        border-style: none;
+    border-radius: 0.25rem;
+    border: solid 1px rgb(220, 224, 219);
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1.25rem;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    resize: vertical;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    height: 20rem;
+		
 	}
 	&-list {
 		position: absolute;

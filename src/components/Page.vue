@@ -7,7 +7,7 @@
                 <label for="tags">Tags:</label>
                 <input type="text" v-model="page.tags" class="tags" name="tags" placeholder="Enters Tags" />
                 <label for="content">Content</label>
-                <vtag :tags="tags" :suggestions="suggestions" :suggestionLength="1" @removeItem="removeTag" @addItem="addTag"/>
+                <autocomplete @emit-to-parent="newVal" :inputValue="page.content" v-model = "page.content"/>
                 <textarea class="content" name="content" v-model="page.content" placeholder="Enter some content"></textarea>
                 <button @click="deletePage()">Delete Page</button>
                 <button @click="savePage()">Save Page</button>
@@ -19,70 +19,32 @@
     </template>
 
     <script>
-      import vtag from './v-tag-suggestion'
+      
       import autocomplete from './autocomplete'
 
       export default {
         name: 'Page',
         props: ['page'],
-        components: {
-            vtag
-        },
         data() {
-    return {
-      tags: [
-        {
-          name: "hello"
-        }
-      ],
-      suggestions: [
-        {
-          name: "This"
+            return {
+                inputValue: ""
+            }
         },
-        {
-          name: "is"
+        components: {
+            autocomplete
         },
-        {
-          name: "a"
-        },
-        {
-          name: "new"
-        },
-        {
-          name: "vue"
-        },
-        {
-          name: "tag"
-        },
-        {
-          name: "component"
-        },
-        {
-          name: "which"
-        },
-        {
-          name: "will"
-        },
-        {
-          name: "give"
-        },
-        {
-          name: "auto"
-        },
-        {
-          name: "suggestion"
-        }
-      ],
-      msg: "Welcome to Your Vue.js App"
-    };
-  },
         methods: {
           deletePage () {
             this.$emit('delete-page')
           },
           savePage () {
             this.$emit('save-page')
+          }, 
+          newVal (inputValue) {
+            page.content = this.inputValue
+            console.log(page.content)
           }
+
         }
       }
     </script>
