@@ -54,7 +54,7 @@ const standardItems = [
 ];
 export default {
     name: "autocomplete",
-	props: ["items", "placeholder", "label", "textarea", "rows", "cols"],
+	props: ["items", "placeholder", "label", "textarea", "rows", "cols", 'page'],
 	data() {
 		return {
 			id: 'input-' + parseInt(Math.random() * 1000),
@@ -94,10 +94,12 @@ export default {
 		}
 	},
 	watch: {
-		inputValue() {
+		inputValue(page) {
 			this.focus();
 			console.log(this.inputSplitted)
             this.emitToParent()
+            this.page.content = this.inputValue
+            console.log("new page content - input value" + page.content)
 			this.selectedIndex = 0;
 			this.wordIndex = this.inputSplitted.length - 1;
             

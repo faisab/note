@@ -7,7 +7,7 @@
                 <label for="tags">Tags:</label>
                 <input type="text" v-model="page.tags" class="tags" name="tags" placeholder="Enters Tags" />
                 <label for="content">Content</label>
-                <autocomplete @emit-to-parent="newVal" :inputValue="page.content" v-model = "page.content"/>
+                <autocomplete :page= "page"/>
                 <textarea class="content" name="content" v-model="page.content" placeholder="Enter some content"></textarea>
                 <button @click="deletePage()">Delete Page</button>
                 <button @click="savePage()">Save Page</button>
