@@ -20,6 +20,7 @@
 
     <script>
       import vtag from './v-tag-suggestion'
+      import autocomplete from './autocomplete'
 
       export default {
         name: 'Page',

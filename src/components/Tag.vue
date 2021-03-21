@@ -18,23 +18,8 @@
       </div>
     </li>
   </transition-group>
-    <li class="a-lb show-suggestion-btn" v-if="suggestions.length" @click="showAll=!showAll ">{{showAll ? 'Hide Tags': 'All Tags'}}
-    </li>
   </ul>
-  <transition name="fade">
-  <div v-if="showAll">
-    <ul class="all-suggesions tag-with-autosuggestion el-input el-input--small">
-       <transition-group name="list-complete">
-       <li class="tag-name list-complete-item" v-for="(tag,index) in top" @click="addFromSuggestion(tag.name, $event)" :key="index">
-        {{tag.name}}
-       </li>
-     </transition-group>
-       <li class="a-lb show-suggestion-btn" @click="filter=!filter" v-if="top.length>7">
-         {{suggestionsLen}}
-       </li>
-    </ul>
-  </div>
-</transition>
+
 </div>
 </template>
 
