@@ -2,9 +2,10 @@
   
     <div class="autocomplete">
       <label :for="id">{{label}}</label>
-      <textarea v-if="textarea" :id="id" :rows="rows" :cols="cols" class="autocomplete-input" :placeholder="placeholder" @focusout="focusout" @focus="focus" @keydown.13="chooseItem" @keydown.tab="chooseItem" @keydown.40="moveDown" @keydown.38="moveUp" v-model="inputValue"
+      <input v-if="textarea" :id="id" class="autocomplete-input" :placeholder="'Enter some'" @focusout="focusout" @focus="focus" @keydown.13="chooseItem" @keydown.tab="chooseItem" @keydown.40="moveDown" @keydown.38="moveUp" v-model="inputValue" @update = emitToParent() type="text">
+      <textarea v-else :id="id" :rows="rows" :cols="cols" class="content" :placeholder="'Enter some content'" @focusout="focusout" @focus="focus" @keydown.13="chooseItem" @keydown.tab="chooseItem" @keydown.40="moveDown" @keydown.38="moveUp" v-model="inputValue"
         type="text"></textarea>
-      <input v-else :id="id" class="autocomplete-input" :placeholder="placeholder" @focusout="focusout" @focus="focus" @keydown.13="chooseItem" @keydown.tab="chooseItem" @keydown.40="moveDown" @keydown.38="moveUp" v-model="inputValue" @update = emitToParent() type="text">
+     
 
 
       <ul :class="{
@@ -29,28 +30,11 @@
 // TODO: collision detection, autoscroll
 // new: tab and highlighting, textareas, follow caret
 const standardItems = [
-	"input",
-	"h1",
-	"h2",
-	"h3",
-	"h4",
-	"h5",
-	"h6",
-	"span",
-	"div",
-	"textarea",
-	"margin",
-	"padding",
-	"display",
-	"background",
-	"background-color",
-	"background-size",
-	"background-repeat",
-	"position",
-	"top",
-	"left",
-	"right",
-	"bottom"
+	'tomato', 'potato', 'cucumber', 'carrot', 'onion', 'broccoli', 'cabbage',
+    'spinach', 'lettuce', 'pea', 'kale', 'radish', 'celery', 'beet', 'eggplant',
+    'garlic', 'zucchini', 'bell pepper', 'turnip', 'corn', 'parsnip', 'okra',
+    'scallion', 'asparagus', 'leek', 'green bean', 'shallot', 'cauliflower',
+    'rutabaga', 'watercress', 'kohlrabi', 'endive', 'artichoke', 'bean'
 ];
 export default {
     name: "autocomplete",
@@ -65,7 +49,8 @@ export default {
 			wordIndex: 0
 		};
 	},
-	mounted() {
+	mounted(page) {
+	inputValue = this.page.content
     const _self = this;
     document.querySelector('#' + this.id)
       .addEventListener('input', function() {
@@ -206,7 +191,7 @@ export default {
 	align-items: center;
 	justify-content: center;
 	&-row {
-		width: auto;
+		width: 100%;
 		padding: 25px;
 
 		border-radius: 5px;
@@ -216,18 +201,16 @@ export default {
 	&-item {
 		width: 100%;
 	}
-    border-style: none;
-            border-radius: 0.25rem;
+    
             border: solid 1px rgb(220, 224, 219);
             width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 1.25rem;
+            
 }
 
 
 // AUTOCOPMPLETE SCSS
 .autocomplete {
-	position: relative;
+	
 	label {
 		display: block;
 
@@ -237,7 +220,7 @@ export default {
 		font-weight: 100;
 	}
 	&-input {
-        border-style: none;
+    border-style: none;
     border-radius: 0.25rem;
     border: solid 1px rgb(220, 224, 219);
     width: 100%;
@@ -256,8 +239,7 @@ export default {
 
 		overflow: auto;
 
-		min-width: 250px;
-		max-height: 150px;
+		
 		margin: 0;
 		margin-top: 5px;
 		padding: 0;
@@ -282,6 +264,27 @@ export default {
 			}
 		}
 	}
+    .content, .title, .tags {
+            border-style: none;
+            border-radius: 0.25rem;
+            border: solid 1px rgb(220, 224, 219);
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 1.25rem;
+
+        }
+
+        .content:focus, .title:focus {
+            outline: 0;
+        }
+
+        .content {
+            font-family: 'Avenir', Helvetica, Arial, sans-serif;
+            resize: vertical;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+            height: 20rem;
+        }
 }
 
 

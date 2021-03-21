@@ -1,12 +1,15 @@
 <template>
         <div class="folder">
-            <label for="notes">Notes</label>
+            
+            <label for="title">Notes</label>
+            <label for="title">--------------</label>
             <ul>
                 <li v-for="(page, index) of pages " class="page" v-bind:class="{ 'active': index === activePage }" @click="changePage(index)" v-bind:key="index">
                     <div>{{page.title}}</div>
-                </li>
+                </li> 
                 <li class="new-page" @click="newPage()">New Page +</li>
             </ul>
+            
         </div>
     </template>
 
@@ -63,12 +66,22 @@
             background-color: #5aa56f;
             color: white;
         }
-
-        .new-page {
+        
+        .title {
             background-color: #488b8f;
             color: white;
             position: absolute;
             bottom: 1%;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 2rem;
+        }
+
+        .new-page {
+            background-color: #488b8f;
+            color: white;
+            position: relative;
+            bottom: 0%;
             width: 100%;
             box-sizing: border-box;
         }
@@ -77,16 +90,15 @@
             background-color: #5a9440;
         }
 
-        .new-folder {
-            background-color: #74b49b;
-            color: white;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .new-folder:hover {
-            background-color: #5a9440;
+        
+        label {
+            margin-bottom: 2rem;
+            display: inline-block;
+            font-size: 2rem;
+            margin-right: 2rem;
+            margin-left: 1rem;
+            margin-top: 2rem;
+            color: #000;
+            font-family: 'Fira Code', monospace;
         }
     </style>

@@ -1,7 +1,7 @@
     <template>
         <div class="search">
-            <input type="text" v-model="childMessage" placeholder="Search">
-            <button @click="emitToParent()">Search</button>
+            <input type="text" v-model="childMessage" placeholder="Search" >
+            <button @click="emitToParent()" class="button">Search</button>
             <ul>      
                 <div v-if="results" class="page">
                     <li v-for="result of results" class="page">
@@ -35,6 +35,7 @@
             max-width: 20rem;
             width: 30rem;
             background: #a7d7c5;
+            display: inline-block;
         }
         
 
@@ -76,6 +77,10 @@
         .active {
             background-color: #3a6e45;
             color: white;
+        }
+
+        .button {
+            display: inline-block;
         }
 
         .active:hover {

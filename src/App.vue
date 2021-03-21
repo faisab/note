@@ -33,7 +33,7 @@
       },
       data: () => ({
         pages: [],
-        results: "horrible",
+        results: "",
         index: 0,
         query:""
       }),
@@ -44,6 +44,9 @@
               ref: page.ref,
               title: page.child('title').val(),
               tags: page.child('tags').val(),
+              class: page.child('class').val(),
+              datetime: page.child('datetime').val(),
+              index: page.child('index').val(),
               content: page.child('content').val()
             })
           })
@@ -54,13 +57,33 @@
           console.log("query" + query)
           var ref = database;
           var test = [];
-          
+          switch (query) {
+            case "datetime":
+              ref.orderByChild('datetime').on('child_added', function(snapshot) {
+              test.push(snapshot.val().title);
+              })
+              break;
+            case "title":
+              ref.orderByChild('title').on('child_added', function(snapshot) {
+              test.push(snapshot.val().title);
+              })
+              break;
+            case "class":
+              ref.orderByChild('tags').on('child_added', function(snapshot) {
+              test.push(snapshot.val().title);
+              })
+              break;   
+            case "tags":
+              ref.orderByChild('tags').on('child_added', function(snapshot) {
+              test.push(snapshot.val().title);
+              })
+              break;      
+          }
+          /*
           ref.orderByChild("title").on("child_added", function(snapshot) {
             console.log(snapshot.val().title + " was the title and " + snapshot.val().tags + " is the tags");
           });
-          ref.orderByChild('title').on('child_added', function(snapshot) {
-            test.push(snapshot.val().tags);
-          })
+          */
           this.results = test
         },
         newPage () {
@@ -85,6 +108,8 @@
           page.ref.set({
             title: page.title,
             tags: page.tags,
+            class: page.class,
+            datetime: new Date().toLocaleString(),
             content: page.content
           })
         },
@@ -111,7 +136,7 @@
     }
 
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        font-family: 'Fira Code', monospace;
         display: flex;
         flex-direction: row;
     }

@@ -1,13 +1,17 @@
     <template>
         <div class="page">
             <div v-if="page">
-                <h1 class="header">Notebook</h1>
-                <label for="title">Title</label>
+                <dynamictitle/>
+                <label for="title">Title:</label>
                 <input type="text" v-model="page.title" class="title" name="title" placeholder="Enter a title" />
+                <label for="tags">Class:</label>
+                <input type="text" v-model="page.class" class="tags" name="tags" placeholder="Enters Class" />
                 <label for="tags">Tags:</label>
                 <input type="text" v-model="page.tags" class="tags" name="tags" placeholder="Enters Tags" />
-                <label for="content">Content</label>
+                <label for="content">Update Note</label>
                 <autocomplete :page= "page"/>
+                <label for="content">Stored Note</label>
+                <label class = "datetime">Last Updated: {{page.datetime}} 🕒 </label>
                 <textarea class="content" name="content" v-model="page.content" placeholder="Enter some content"></textarea>
                 <button @click="deletePage()">Delete Page</button>
                 <button @click="savePage()">Save Page</button>
@@ -21,6 +25,7 @@
     <script>
       
       import autocomplete from './autocomplete'
+      import dynamictitle from './title'
 
       export default {
         name: 'Page',
@@ -31,7 +36,7 @@
             }
         },
         components: {
-            autocomplete
+            autocomplete, dynamictitle
         },
         methods: {
           deletePage () {
@@ -50,6 +55,8 @@
     </script>
 
     <style scoped>
+        
+
         .page {
             width: 100%;
             padding: 2rem;
@@ -88,6 +95,7 @@
         }
 
         .title {
+            margin-bottom: 0.5rem;
             font-size: 2rem;
             padding: 0.5rem 1rem;
         }
@@ -95,6 +103,12 @@
         .tags {
             font-size: 2rem;
             padding: 0.5rem 1rem;
+        }
+
+        .datetime {
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            color: #3a6351;
         }
 
         .date {
