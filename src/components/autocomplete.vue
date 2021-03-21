@@ -42,7 +42,7 @@ export default {
 	data() {
 		return {
 			id: 'input-' + parseInt(Math.random() * 1000),
-			inputValue: "",
+			inputValue: this.page.content,
 			searchMatch: [],
 			selectedIndex: 0,
 			clickedChooseItem: false,

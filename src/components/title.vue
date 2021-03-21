@@ -13,7 +13,8 @@ export default {
 <style scoped> 
     * {
   padding: 1%;
-  margin-bottom: 1px;
+  margin-top: 2px;
+  margin-bottom: 2px;
   box-sizing: border-box;
 
   background: #5c8d89;
