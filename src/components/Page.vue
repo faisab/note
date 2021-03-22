@@ -9,7 +9,7 @@
                 <label for="tags">Tags:</label>
                 <input type="text" v-model="page.tags" class="tags" name="tags" placeholder="Enters Tags" />
                 <label for="content">Update Note</label>
-                <autocomplete :page= "page"/>
+                <autocomplete :page= "this.page" :key="componentKey"/>
                 <label for="content">Stored Note</label>
                 <label class = "datetime">Last Updated: {{page.datetime}} 🕒 </label>
                 <textarea class="content" name="content" v-model="page.content" placeholder="Enter some content"></textarea>
@@ -32,7 +32,8 @@
         props: ['page'],
         data() {
             return {
-                inputValue: ""
+                inputValue: this.page.content,
+                componentKey: 0
             }
         },
         components: {
@@ -44,6 +45,7 @@
           },
           savePage () {
             this.$emit('save-page')
+            this.componentKey += 1;
           }, 
           newVal (inputValue) {
             page.content = this.inputValue

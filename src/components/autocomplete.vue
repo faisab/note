@@ -27,8 +27,6 @@
 </template>
 
 <script> 
-// TODO: collision detection, autoscroll
-// new: tab and highlighting, textareas, follow caret
 const standardItems = [
 	'tomato', 'potato', 'cucumber', 'carrot', 'onion', 'broccoli', 'cabbage',
     'spinach', 'lettuce', 'pea', 'kale', 'radish', 'celery', 'beet', 'eggplant',
