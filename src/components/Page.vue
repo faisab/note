@@ -29,11 +29,10 @@
 
       export default {
         name: 'Page',
-        props: ['page'],
+        props: ['page', 'componentKey'],
         data() {
             return {
-                inputValue: this.page.content,
-                componentKey: 0
+                inputValue: this.page.content
             }
         },
         components: {
@@ -45,8 +44,12 @@
           },
           savePage () {
             this.$emit('save-page')
-            this.componentKey += 1;
           }, 
+          /*
+          forceRerender() {
+              this.componentKey += 1;
+          },
+          */
           newVal (inputValue) {
             page.content = this.inputValue
             console.log(page.content)

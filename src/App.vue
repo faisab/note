@@ -1,8 +1,8 @@
     <template>
       <div id="app">
           <Folder @change-page="changePage" @new-page="newPage" :pages="pages" :activePage="index" />
-          <Page @save-page="savePage" @delete-page="deletePage" :page="pages[index]" />
-          <Search @emit-to-parent="search" :childMessage="query" :results = "results"/>
+          <Page @save-page="savePage" @forceRerender="forceRerender" @delete-page="deletePage" :page="pages[index]" :componentKey = "componentKey"/>
+          <Search @emit-to-parent="search" :childMessage="query" :results = "results" />
       </div>
     </template>
 
@@ -35,7 +35,8 @@
         pages: [],
         results: "",
         index: 0,
-        query:""
+        query:"",
+        componentKey: 0
       }),
       mounted() {
         database.once('value', (pages) => {
@@ -95,6 +96,7 @@
         },
         changePage (index) {
           this.index = index
+          this.forceRerender()
         },
         savePage () {
           var page = this.pages[this.index]
@@ -103,6 +105,11 @@
           } else {
             this.insertNewPage(page)
           }
+          this.forceRerender()
+        },
+        forceRerender () {
+          console.log("autocomplete has been reset")
+          this.componentKey += 1;
         },
         updateExistingPage (page) {
           page.ref.set({
