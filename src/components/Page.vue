@@ -8,11 +8,11 @@
                 <input type="text" v-model="page.class" class="tags" name="tags" placeholder="Enters Class" />
                 <label for="tags">Tags:</label>
                 <input type="text" v-model="page.tags" class="tags" name="tags" placeholder="Enters Tags" />
-                <label for="content">Update Note</label>
-                <autocomplete :page= "this.page" :key="componentKey"/>
+                <!--<label for="content">Update Note</label>-->
                 <label for="content">Stored Note</label>
                 <label class = "datetime">Last Updated: {{page.datetime}} 🕒 </label>
-                <textarea class="content" name="content" v-model="page.content" placeholder="Enter some content"></textarea>
+                <autocomplete :page= "this.page" :key="componentKey"/>
+                <!---<textarea class="content" name="content" v-model="page.content" placeholder="Enter some content"></textarea>-->
                 <button @click="deletePage()">Delete Page</button>
                 <button @click="savePage()">Save Page</button>
             </div>
