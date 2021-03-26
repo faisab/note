@@ -2,7 +2,7 @@
       <div id="app">
           <Folder @change-page="changePage" @new-page="newPage" :pages="pages" :activePage="index" />
           <Page @save-page="savePage" @forceRerender="forceRerender" @delete-page="deletePage" :page="pages[index]" :componentKey = "componentKey"/>
-          <Search @emit-to-parent="search" :childMessage="query" :results = "results" />
+          <Search @emit-to-parent="search" :childMessage="query" :results = "results" @change-page="changePage"/>
       </div>
     </template>
 
@@ -47,7 +47,7 @@
               tags: page.child('tags').val(),
               class: page.child('class').val(),
               datetime: page.child('datetime').val(),
-              index: page.child('index').val(),
+              indexSearch: page.child('index').val(),
               content: page.child('content').val()
             })
           })
@@ -61,7 +61,7 @@
           switch (query) {
             case "datetime":
               ref.orderByChild('datetime').on('child_added', function(snapshot) {
-              test.push(snapshot.val().title);
+              test.push([snapshot.val().title, snapshot.val().indexSearch]);
               })
               break;
             case "title":
@@ -90,9 +90,11 @@
         newPage () {
           this.pages.push({
             title: '',
-            content: ''
+            content: '',
+            indexSearch: this.pages.length - 1
           })
           this.index = this.pages.length - 1
+          this.pages[this.index].indexSearch = this.pages.length - 1
         },
         changePage (index) {
           this.index = index

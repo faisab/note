@@ -4,8 +4,8 @@
             <button @click="emitToParent()" class="button">Search</button>
             <ul>      
                 <div v-if="results" class="page">
-                    <li v-for="result of results" class="page">
-                        <div> {{ result }}</div>
+                    <li v-for="result of results" class="page" @click="changePage(result)" >
+                        <div> {{ result[0] }}</div>
                     </li> 
                 </div>
             </ul>
@@ -24,6 +24,10 @@
         methods: {
           emitToParent () {
               this.$emit('emit-to-parent', this.childMessage)
+          }, 
+          changePage (result) {
+            this.$emit('change-page', result[1])
+            console.log(result)
           }
         }
       }
